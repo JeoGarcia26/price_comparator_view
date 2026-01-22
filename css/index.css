@@ -1,0 +1,153 @@
+/* ================= RESET ================= */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', system-ui, sans-serif;
+    background: #f8fafc;
+    color: #0f172a;
+}
+
+/* ================= HEADER ================= */
+header {
+    background: linear-gradient(90deg, #2563eb, #1e40af);
+    color: white;
+    padding: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+#logo {
+    font-size: 1.2rem;
+    font-weight: 700;
+    width: 100%;
+    text-align: center;
+}
+
+#menus {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+#menus a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+#menus input {
+    width: 100%;
+    max-width: 260px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: none;
+}
+
+#menus button {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: none;
+    background: white;
+    cursor: pointer;
+}
+
+/* ================= MAIN ================= */
+main {
+    padding: 20px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+}
+
+/* ================= CAMERA ================= */
+#cameraContainer {
+    width: 100%;
+    max-width: 720px;
+    background: white;
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#videoElement {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background: #1e293b;
+    border-radius: 12px;
+    transform: scaleX(-1);
+}
+
+/* ================= BUTTONS ================= */
+#buttonsContainer {
+    margin-top: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+#buttonsContainer button {
+    width: 100%;
+    max-width: 220px;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+/* ================= RESULT ================= */
+#resultado {
+    width: 100%;
+    max-width: 720px;
+    background: white;
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    min-height: 80px;
+}
+
+/* ================= FOOTER ================= */
+footer {
+    background: #0f172a;
+    color: #cbd5e1;
+    text-align: center;
+    padding: 12px;
+}
+
+/* ================= DESKTOP ================= */
+@media (min-width: 768px) {
+
+    header {
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    #logo {
+        width: auto;
+        text-align: left;
+    }
+
+    #menus {
+        width: auto;
+        justify-content: flex-end;
+    }
+
+    #menus input {
+        width: 200px;
+    }
+
+    #buttonsContainer button {
+        width: auto;
+    }
+}

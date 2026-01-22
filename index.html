@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Price Comparator</title>
+    <style>
+        /* ================= RESET ================= */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: #f8fafc;
+            color: #0f172a;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ================= HEADER ================= */
+        header {
+            background: linear-gradient(90deg, #2563eb, #1e40af);
+            color: white;
+            padding: 16px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #logo {
+            font-weight: 700;
+            font-size: 1.4rem;
+        }
+
+        #menus {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+        }
+
+        #menus input {
+            padding: 6px 10px;
+            border-radius: 6px;
+            border: none;
+        }
+
+        #menus button {
+            padding: 6px 10px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            background: white;
+        }
+
+        /* ================= MAIN CONTAINER ================= */
+        .main-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ================= MOBILE FIRST ================= */
+        #leftPanel,
+        #rightPanel {
+            width: 100%;
+        }
+
+        #leftPanel {
+            padding: 16px;
+        }
+
+        #rightPanel {
+            background: #e5e7eb;
+            padding: 16px;
+            border-top: 1px solid #cbd5e1;
+        }
+
+        /* ================= HISTORY ================= */
+        #searchHistory {
+            list-style: none;
+            padding: 0;
+        }
+
+        #searchHistory li {
+            padding: 8px;
+            margin-bottom: 6px;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        #searchHistory li:hover {
+            background: #f0f0f0;
+        }
+
+        /* ================= FLOAT BUTTON ================= */
+        #enableCameraButton {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            padding: 16px;
+            border-radius: 50%;
+            border: none;
+            background: #2563eb;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transition: transform 0.2s;
+        }
+
+        #enableCameraButton:hover {
+            transform: scale(1.1);
+        }
+
+        /* ================= CAMERA MODAL ================= */
+        #cameraContainer {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            padding: 16px;
+            z-index: 999;
+            max-width: 90%;
+        }
+
+        #videoElement {
+            width: 100%;
+            max-width: 640px;
+            aspect-ratio: 4/3;
+            background: #1e293b;
+            border-radius: 8px;
+            transform: scaleX(-1);
+        }
+
+        #buttonsContainer {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        #buttonsContainer button {
+            padding: 10px 16px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* ================= DESKTOP LAYOUT ================= */
+        @media(min-width:768px) {
+            .main-container {
+                flex-direction: row;
+            }
+
+            #leftPanel {
+                flex: 3;
+                padding: 24px;
+            }
+
+            #rightPanel {
+                flex: 1;
+                border-top: none;
+                border-left: 1px solid #cbd5e1;
+                padding: 24px;
+            }
+        }
+
+        /* ================= FOOTER ================= */
+        footer {
+            background: #0f172a;
+            color: #cbd5e1;
+            text-align: center;
+            padding: 12px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
+
+</head>
+
+<body>
+
+    <header>
+        <div id="logo">PriceCompare <span style="opacity:0.8;">SM</span></div>
+        <nav id="menus">
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+            <input type="text" id="searchInput" placeholder="Pesquisar produto...">
+            <button id="searchButton">🔍</button>
+        </nav>
+    </header>
+
+    <div class="main-container">
+        <!-- LEFT PANEL -->
+        <div id="leftPanel">
+            <section id="resultado">
+                <h2>Resultados</h2>
+            </section>
+            <section id="productResults"></section>
+        </div>
+
+        <!-- RIGHT PANEL -->
+        <div id="rightPanel">
+            <h3>Histórico de buscas</h3>
+            <ul id="searchHistory"></ul>
+        </div>
+    </div>
+
+    <button id="enableCameraButton">📸</button>
+
+    <!-- CAMERA MODAL -->
+    <section id="cameraContainer">
+        <video id="videoElement" autoplay></video>
+        <div id="buttonsContainer">
+            <button id="ocrButton">📄 OCR</button>
+            <button id="computerVisionButton">👁️ Computer Vision</button>
+            <button id="closeCameraButton">❌ Fechar</button>
+        </div>
+    </section>
+
+    <footer>&copy; 2026 Price Comparator SM. Todos os direitos reservados.</footer>
+
+    <script src="js/utils.js"></script>
+    <script>
+        // FLUTUANTE: abrir/fechar câmera
+        const enableBtn = document.getElementById('enableCameraButton');
+        const closeBtn = document.getElementById('closeCameraButton');
+        const cameraContainer = document.getElementById('cameraContainer');
+
+        enableBtn.addEventListener('click', () => { cameraContainer.style.display = 'flex'; });
+        closeBtn.addEventListener('click', () => { cameraContainer.style.display = 'none'; });
+    </script>
+</body>
+
+</html>

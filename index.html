@@ -422,6 +422,7 @@
             });
 
             closeBtn.addEventListener('click', () => {
+                stopVideo();
                 cameraContainer.style.display = 'none';
             });
 
@@ -435,7 +436,7 @@
             /* ------------------------------------------------------------------------------- */
             /* Main Code Execution */
             /* ------------------------------------------------------------------------------- */
-
+            updateMirror();
         }
     </script>
 </body>

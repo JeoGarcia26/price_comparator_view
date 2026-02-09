@@ -1,0 +1,24 @@
+# Price Comparator
+
+## Descrição
+O Price Comparator é uma aplicação web que permite aos usuários comparar preços de produtos utilizando tecnologia de reconhecimento de imagem e OCR (Reconhecimento Óptico de Caracteres). A aplicação utiliza bibliotecas como TensorFlow.js e Tesseract.js para realizar a análise de imagens e extração de texto.
+
+## Funcionalidades
+- **Comparação de Preços:** Os usuários podem capturar imagens de produtos e a aplicação irá extrair informações relevantes para comparação.
+- **Reconhecimento de Imagens:** Utiliza o modelo COCO-SSD para detectar objetos nas imagens capturadas.
+- **OCR:** O Tesseract.js é utilizado para converter imagens de texto em texto editável.
+
+## Tecnologias Utilizadas
+- HTML
+- CSS
+- JavaScript
+- TensorFlow.js
+- Tesseract.js
+
+## Como Usar
+1. Abra a aplicação em um navegador web.
+2. Clique no botão de câmera para capturar uma imagem do produto.
+3. A aplicação irá processar a imagem e exibir as informações de comparação de preços.
+
+## Licença
+Este projeto está licenciado sob a Licença MIT. Veja o arquivo LICENSE para mais detalhes.

@@ -1,3 +1,4 @@
+
 // js/utils.js
 onload = async () => {
     /* ------------------------------------------------------------------------------- */
@@ -9,7 +10,7 @@ onload = async () => {
     /* ------------------------------------------------------------------------------- */
     /* Element References */
     /* ------------------------------------------------------------------------------- */
-     classificacao = {
+    classificacao = {
         className: "",
         probability: 0
     };
@@ -68,6 +69,84 @@ onload = async () => {
             loja3: loja3Data
         };
     }
+
+    /* --------------------------------------------- Render Products --------------------------------------------- */
+
+    function renderProducts(products) {
+        const grid = document.getElementById("productsGrid");
+        grid.innerHTML = "";
+
+        if (!products.length) {
+            grid.innerHTML = "<p>Nenhum produto encontrado.</p>";
+            return;
+        }
+
+        products.forEach((produto, index) => {
+            const card = document.createElement("div");
+            card.className = "product-card";
+
+            // Destacar o mais barato
+            if (index === 0) {
+                card.style.border = "2px solid #16a34a";
+                card.style.background = "#f8d97497";
+            }
+
+            card.innerHTML = `
+            <img src="${produto.imagem}" 
+                 alt="${produto.nome}" 
+                 class="product-image"
+                 onerror="this.src='https://via.placeholder.com/300x200?text=Imagem'">
+
+            <div class="product-content">
+                <div class="product-category">${produto.categoria}</div>
+
+                <div class="product-name">
+                    ${produto.nome}
+                    ${index === 0 ? '<span style="color:#16a34a;font-size:0.8rem;"> 🏆 Melhor preço</span>' : ''}
+                </div>
+
+                <div class="product-description">${produto.descricao}</div>
+
+                <div style="font-size:0.8rem;color:#64748b;">
+                    Vendido por: ${produto.lojaNome}
+                </div>
+
+                <div class="product-price">
+                    ${produto.preco.toLocaleString()} Kz
+                </div>
+
+                <a href="${produto.url}" target="_blank" class="product-link">
+                    Ver Produto
+                </a>
+            </div>
+        `;
+
+            grid.appendChild(card);
+        });
+    }
+
+    /* --------------------------------------------- Render History --------------------------------------------- */
+    function renderHistory() {
+        const historyList = document.getElementById("searchHistory");
+        historyList.innerHTML = "";
+
+        const history = HistoryService.getHistory();
+
+        history.forEach(item => {
+            const li = document.createElement("li");
+            li.textContent = item;
+
+            li.addEventListener("click", () => {
+                document.getElementById("searchInput").value = item;
+                let produtos = pesquisarProduto(item);
+                renderHistory();
+                renderProducts(produtos);
+            });
+
+            historyList.appendChild(li);
+        });
+    }
+
 
 
 
@@ -198,16 +277,9 @@ onload = async () => {
             return;
         }
         // Aqui você pode adicionar a lógica para buscar produtos com base no termo inserido
-        console.log('Pesquisar por:', query);
-        let resultados1 = window.loja1.loja.produtos.filter(produto => produto.nome.toLowerCase().includes(query.toLowerCase()));
-        console.log('Resultados da pesquisa loja 1: ', resultados1);
-
-        let resultados2 = window.loja2.loja.produtos.filter(produto => produto.nome.toLowerCase().includes(query.toLowerCase()));
-        console.log('Resultados da pesquisa loja 2: ', resultados2);
-
-        let resultados3 = window.loja3.loja.produtos.filter(produto => produto.nome.toLowerCase().includes(query.toLowerCase()));
-        console.log('Resultados da pesquisa loja 3: ', resultados3);
-
+        let produtos = pesquisarProduto(query);
+        renderHistory();
+        renderProducts(produtos);
 
     });
 
@@ -249,6 +321,7 @@ onload = async () => {
         resultadosClassificacao.forEach((result, index) => {
             console.log(`${index + 1}. ${result.className} - Probabilidade: ${(result.probability * 100).toFixed(2)}%`);
         });
+        return { "classe": resultadosClassificacao[0].className, "probabilidade": (resultadosClassificacao[0].probability * 100).toFixed(2) };
     }
 
 
@@ -258,6 +331,11 @@ onload = async () => {
     /* Event Listeners */
     /* ------------------------------------------------------------------------------- */
 
+    document.getElementById('searchInput').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            searchButton.click();
+        }
+    });
     enableCameraButton.addEventListener('click', startVideo);
     ocrButton.addEventListener('click', async () => {
         if (!video.srcObject) {
@@ -280,11 +358,13 @@ onload = async () => {
 
         capturarImagem();
         stopVideo();
-        resultadoDiv.textContent = "Processando Computer Vision...";
 
         /* const mensagem = await processComputerVision(); */
         const mensagem = await classificarImagem(capturedImage);
-        resultadoDiv.textContent = mensagem;
+
+        let produtos = pesquisarProduto(mensagem.classe);
+        renderHistory();
+        renderProducts(produtos);
     });
 
     closeBtn.addEventListener('click', () => {
@@ -303,6 +383,7 @@ onload = async () => {
     /* ------------------------------------------------------------------------------- */
     setup();
     updateMirror();
+    renderHistory();
 }
 
 

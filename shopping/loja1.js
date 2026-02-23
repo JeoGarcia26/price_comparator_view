@@ -10,7 +10,7 @@ window.loja1 = {
             {
                 "nome": "Notebook",
                 "descricao": "Notebook 15 polegadas",
-                "imagem": "img1.jpg",
+                "imagem": "assets/notebook_l1.jpeg",
                 "url": "http://loja1.com/notebook",
                 "preco": 2500,
                 "categoria": "Eletrônicos",
@@ -19,7 +19,7 @@ window.loja1 = {
             {
                 "nome": "Mouse",
                 "descricao": "Mouse sem fio",
-                "imagem": "img2.jpg",
+                "imagem": "assets/mouse_l1.jpeg",
                 "url": "http://loja1.com/mouse",
                 "preco": 5500,
                 "categoria": "Acessórios",
@@ -28,7 +28,7 @@ window.loja1 = {
             {
                 "nome": "Teclado",
                 "descricao": "Teclado mecânico RGB",
-                "imagem": "img3.jpg",
+                "imagem": "assets/teclado_l1.jpeg",
                 "url": "http://loja1.com/teclado",
                 "preco": 3550,
                 "categoria": "Acessórios",
@@ -127,7 +127,7 @@ window.loja1 = {
             {
                 "nome": "Mousepad",
                 "descricao": "Mousepad grande RGB",
-                "imagem": "img14.jpg",
+                "imagem": "assets/mousepad_l1.jpeg",
                 "url": "http://loja1.com/mousepad",
                 "preco": 2500,
                 "categoria": "Acessórios",

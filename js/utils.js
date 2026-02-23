@@ -87,7 +87,7 @@ onload = async () => {
 
             // Destacar o mais barato
             if (index === 0) {
-                card.style.border = "2px solid #16a34a";
+                card.style.border = "2px solid #16a34a2a";
                 card.style.background = "#f8d97497";
             }
 
@@ -152,13 +152,22 @@ onload = async () => {
 
     /* --------------------------------------------- Camera --------------------------------------------- */
     async function getMedia(constraints) {
-        let stream = null;
-
         try {
-            stream = await navigator.mediaDevices.getUserMedia(constraints);
+            const stream = await navigator.mediaDevices.getUserMedia(constraints);
+
             video.srcObject = stream;
+
+            await video.play();
+
+            const track = stream.getVideoTracks()[0];
+            const settings = track.getSettings();
+
+            console.log("📷 Resolução real obtida:");
+            console.log("Largura:", settings.width);
+            console.log("Altura:", settings.height);
+
         } catch (err) {
-            console.log("Ocorreu um erro ao obter a mídia: " + err);
+            console.log("Erro ao obter mídia:", err);
         }
     }
 
@@ -239,6 +248,27 @@ onload = async () => {
             await tesseractWorker.terminate();
             tesseractWorker = null;
         }
+    }
+    function pesquisarPorOCR(texto) {
+        if (!texto) return [];
+
+        const palavras = texto
+            .replace(/[^\w\sÀ-ÿ]/g, " ") // remove símbolos estranhos
+            .split(/\s+/)               // divide por espaços
+            .filter(p => p.length > 2); // ignora palavras muito pequenas
+
+        console.log("Palavras extraídas do OCR:", palavras);
+
+        for (let palavra of palavras) {
+            const resultados = pesquisarProduto(palavra);
+
+            if (resultados && resultados.length > 0) {
+                console.log("Encontrado resultado com:", palavra);
+                return resultados;
+            }
+        }
+
+        return [];
     }
 
     /* --------------------------------------------- Computer Vision --------------------------------------------- */
@@ -337,6 +367,7 @@ onload = async () => {
         }
     });
     enableCameraButton.addEventListener('click', startVideo);
+    
     ocrButton.addEventListener('click', async () => {
         if (!video.srcObject) {
             startVideo();
@@ -345,8 +376,10 @@ onload = async () => {
         }
         capturarImagem();
         stopVideo();
-        resultadoDiv.textContent = "Processando OCR...";
-        resultadoDiv.textContent = await extrairTexto();
+        let textoExtraido = await extrairTexto();
+        let produtos = pesquisarPorOCR(textoExtraido);
+        renderHistory();
+        renderProducts(produtos);
     });
 
     computerVisionButton.addEventListener('click', async () => {

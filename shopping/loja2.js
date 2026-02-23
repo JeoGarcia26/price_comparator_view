@@ -10,7 +10,7 @@ window.loja2 = {
             {
                 "nome": "Notebook",
                 "descricao": "Notebook 15 polegadas",
-                "imagem": "img1.jpg",
+                "imagem": "assets/notebook_l2.jpeg",
                 "url": "http://loja2.com/notebook",
                 "preco": 2400,
                 "categoria": "Eletrônicos",
@@ -19,7 +19,7 @@ window.loja2 = {
             {
                 "nome": "Mouse",
                 "descricao": "Mouse sem fio",
-                "imagem": "img2.jpg",
+                "imagem": "assets/mouse_l2.jpeg",
                 "url": "http://loja2.com/mouse",
                 "preco": 5300,
                 "categoria": "Acessórios",
@@ -28,7 +28,7 @@ window.loja2 = {
             {
                 "nome": "Teclado",
                 "descricao": "Teclado mecânico RGB",
-                "imagem": "img3.jpg",
+                "imagem": "assets/teclado_l2.jpeg",
                 "url": "http://loja2.com/teclado",
                 "preco": 3400,
                 "categoria": "Acessórios",
@@ -127,7 +127,7 @@ window.loja2 = {
             {
                 "nome": "Mousepad",
                 "descricao": "Mousepad grande RGB",
-                "imagem": "img14.jpg",
+                "imagem": "assets/mousepad_l2.jpeg",
                 "url": "http://loja2.com/mousepad",
                 "preco": 2450,
                 "categoria": "Acessórios",

@@ -10,7 +10,7 @@ window.loja3 = {
             {
                 "nome": "Notebook Gamer 16GB",
                 "descricao": "Notebook 15 polegadas com placa de vídeo dedicada",
-                "imagem": "img1.jpg",
+                "imagem": "assets/notebook_l3.jpeg",
                 "url": "http://loja3.com/notebook-gamer",
                 "preco": 2650,   // preço diferente
                 "categoria": "Eletrônicos",
@@ -19,7 +19,7 @@ window.loja3 = {
             {
                 "nome": "Mouse Óptico Gamer",
                 "descricao": "Mouse com sensor de 16000 DPI",
-                "imagem": "img2.jpg",
+                "imagem": "assets/mouse_l3.jpeg",
                 "url": "http://loja3.com/mouse-optico",
                 "preco": 5100,
                 "categoria": "Acessórios",
@@ -65,7 +65,7 @@ window.loja3 = {
             {
                 "nome": "Mousepad RGB XL",
                 "descricao": "Mousepad extra grande com iluminação RGB",
-                "imagem": "img24.jpg",
+                "imagem": "assets/mousepad_l3.jpeg",
                 "url": "http://loja3.com/mousepad-rgb-xl",
                 "preco": 2800,
                 "categoria": "Acessórios",
